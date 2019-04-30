@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { BeerComponent } from './beer.component';
+import { BeerResolver } from './resolver/beer.resolver';
 
 const routes: Routes = [{
-    path: '', component: BeerComponent
+    path: '', component: BeerComponent, resolve: { beerData: BeerResolver }
 }];
 
 @NgModule({

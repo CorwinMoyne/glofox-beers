@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-beer',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BeerComponent implements OnInit {
 
-  constructor() { }
+  allBeers: any[];
+  randomBeer: any;
 
-  ngOnInit() {
+  constructor(
+    private route: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.route.data
+      .subscribe(data => {
+        this.randomBeer = data.beerData[0];
+        this.allBeers = data.beerData[1];
+        console.log(this.randomBeer);
+      });
   }
-
 }
