@@ -2,7 +2,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { TestingModule } from '../../../../../testing/testing.module';
-import { BeerService } from '../beer.service';
+import { BeerService } from './beer.service';
 
 describe('BeerService', () => {
 
