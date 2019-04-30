@@ -1,8 +1,8 @@
 /* tslint:disable:no-unused-variable */
 import { TestBed } from '@angular/core/testing';
 
-import { TestingModule } from '../../../../testing/testing.module';
-import { BeerService } from './beer.service';
+import { TestingModule } from '../../../../../testing/testing.module';
+import { BeerService } from '../beer.service';
 
 describe('BeerService', () => {
 
@@ -32,8 +32,15 @@ describe('BeerService', () => {
 
   fit('should return a random non alcoholic beer', () => {
     beerService.getRandomNonAlcoholicBeer()
-    .subscribe(beer => {
-      expect(beer).toBeDefined();
-    });
+      .subscribe(beer => {
+        expect(beer).toBeDefined();
+      });
+  });
+
+  fit('should return all beers', () => {
+    beerService.getAllBeers()
+      .subscribe(beers => {
+        expect(beers).toBeDefined();
+      });
   });
 });
