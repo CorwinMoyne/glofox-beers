@@ -11,6 +11,11 @@ export class BeerResolver {
   constructor(
     private beerService: BeerService) { }
 
+  /**
+   * resolves random beer and all beers
+   *
+   * @param route ActivatedRouteSnapshot
+   */
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const page = route.queryParams.page;
     const perPage = route.queryParams.per_page;
