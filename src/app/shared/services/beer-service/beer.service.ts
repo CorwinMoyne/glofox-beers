@@ -66,7 +66,7 @@ export class BeerService {
     } else if (!!beerName) {
       baseUrl += '&beer_name={2}';
     } else if (!!brewedBefore) {
-      baseUrl += 'brewed_before={2}';
+      baseUrl += '&brewed_before={3}';
     }
     const url = this.urlBuilderService.buildUrl(baseUrl, [
       !!page ? page : '1',

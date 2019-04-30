@@ -36,11 +36,27 @@ describe('BeerService', () => {
       });
   });
 
-  fit('should return all beers', () => {
+  it('should return all beers', () => {
     beerService.getAllBeers()
       .subscribe(beers => {
         expect(beers).toBeDefined();
         expect(beers.length).toBe(80);
+      });
+  });
+
+  it('should return all beers with the name Buzz', () => {
+    beerService.getAllBeers(null, null, 'Buzz')
+      .subscribe(beers => {
+        expect(beers).toBeDefined();
+        expect(beers.length).toBe(1);
+      });
+  });
+
+  it('should return all beers brewed before 02-2010', () => {
+    beerService.getAllBeers(null, null, null, new Date('2010-02-01'))
+      .subscribe(beers => {
+        expect(beers).toBeDefined();
+        expect(beers.length).toBe(36);
       });
   });
 });
