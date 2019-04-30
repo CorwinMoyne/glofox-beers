@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { BeerService } from './beer.service';
+import { TestingModule } from '../../../../testing/testing.module';
 
 describe('BeerService', () => {
 
@@ -11,7 +12,7 @@ describe('BeerService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule
+        TestingModule
       ],
       providers: [BeerService]
     });
@@ -22,14 +23,11 @@ describe('BeerService', () => {
     expect(beerService).toBeTruthy();
   });
 
-  fit('should return a random beer', () => {
+  it('should return a random beer', () => {
     beerService.getRandomBeer()
       .subscribe(beer => {
-        console.log(beer);
-
-      }, error => {
-        console.log(error);
+        expect(beer).toBeDefined();
+        expect(beer.id).toBe(297);
       });
   });
-
 });

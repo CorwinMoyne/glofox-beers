@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { HttpService } from '../../core/services/http.service';
 
@@ -14,6 +15,11 @@ export class BeerService {
     private httpService: HttpService) { }
 
   getRandomBeer(): Observable<any> {
-    return this.httpService.get(this.baseUrl + 'random');
+    return this.httpService.get(this.baseUrl + 'random')
+      .pipe(
+        map(beers => {
+          return beers[0];
+        })
+      );
   }
 }
