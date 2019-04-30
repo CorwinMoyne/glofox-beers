@@ -13,6 +13,10 @@ export class AppComponent implements OnInit {
   constructor(private beerService: BeerService) { }
 
   ngOnInit(): void {
-   
+    this.beerService.getRandomBeer()
+      .subscribe(beer => {
+        console.log(JSON.stringify(beer));
+
+      });
   }
 }
