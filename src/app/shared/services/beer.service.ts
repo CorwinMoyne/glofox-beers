@@ -14,6 +14,9 @@ export class BeerService {
   constructor(
     private httpService: HttpService) { }
 
+  /**
+   * returns a random beer Observable
+   */
   getRandomBeer(): Observable<any> {
     return this.httpService.get(this.baseUrl + 'random')
       .pipe(
@@ -21,5 +24,27 @@ export class BeerService {
           return beers[0];
         })
       );
+  }
+
+  /**
+   * returns a random alcoholic beer Observable
+   */
+  getRandomNonAlcoholicBeer(): Observable<any> {
+    return this.httpService.get(this.baseUrl + '?abv_lt=1')
+      .pipe(
+        map(beers => {
+          const randomInt = this.getRandomInt(beers.length);
+          return beers[randomInt];
+        })
+      );
+  }
+
+  /**
+   * returns a random number up to max
+   *
+   * @param max max number allowed
+   */
+  private getRandomInt(max: number) {
+    return Math.floor(Math.random() * Math.floor(max));
   }
 }

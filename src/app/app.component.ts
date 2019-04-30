@@ -13,10 +13,9 @@ export class AppComponent implements OnInit {
   constructor(private beerService: BeerService) { }
 
   ngOnInit(): void {
-    this.beerService.getRandomBeer()
+    this.beerService.getRandomNonAlcoholicBeer()
       .subscribe(beer => {
         console.log(JSON.stringify(beer));
-
       });
   }
 }
