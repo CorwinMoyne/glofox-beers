@@ -1,4 +1,3 @@
-/* tslint:disable:no-unused-variable */
 import { TestBed } from '@angular/core/testing';
 
 import { TestingModule } from '../../../../../testing/testing.module';
@@ -38,9 +37,10 @@ describe('BeerService', () => {
   });
 
   fit('should return all beers', () => {
-    // beerService.getAllBeers()
-    //   .subscribe(beers => {
-    //     expect(beers).toBeDefined();
-    //   });
+    beerService.getAllBeers()
+      .subscribe(beers => {
+        expect(beers).toBeDefined();
+        expect(beers.length).toBe(80);
+      });
   });
 });
