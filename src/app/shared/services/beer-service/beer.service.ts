@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 import { HttpService } from '../../../core/services/http.service';
 import { Beer } from '../../models/beer.model';
@@ -20,6 +20,7 @@ export class BeerService {
 
   /**
    * returns a random beer Observable
+   * calls itself if beer has no image_url or description
    */
   getRandomBeer(): Observable<Beer> {
     return this.httpService.get(this.baseUrl + 'random')
@@ -28,8 +29,11 @@ export class BeerService {
           if (!!beers[0].image_url && !!beers[0].description) {
             return new Beer(beers[0]);
           } else {
-            this.getRandomBeer();
+            throw new Error('image url or description missing');
           }
+        }),
+        catchError(() => {
+          return this.getRandomBeer();
         })
       );
   }
