@@ -75,7 +75,7 @@ export class BeerService {
     }
     const url = this.urlBuilderService.buildUrl(baseUrl, [
       !!page ? page : '1',
-      !!perPage ? perPage : '80',
+      !!perPage ? perPage : '12',
       !!beerName ? beerName : '',
       !!brewedBefore ? moment(brewedBefore).format('MM-YYYY') : ''
     ]);
