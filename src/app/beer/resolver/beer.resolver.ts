@@ -17,10 +17,10 @@ export class BeerResolver {
    * @param route ActivatedRouteSnapshot
    */
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
-    const page = route.queryParams.page;
-    const perPage = route.queryParams.per_page;
-    const beerName = route.queryParams.beer_name;
-    const brewedBefore = route.queryParams.brewed_before;
+    const page = !!route.queryParams ? route.queryParams.page : undefined;
+    const perPage = !!route.queryParams ? route.queryParams.per_page : undefined;
+    const beerName = !!route.queryParams ? route.queryParams.beer_name : undefined;
+    const brewedBefore = !!route.queryParams ? route.queryParams.brewed_before : undefined;
     return forkJoin([
       this.beerService.getRandomBeer(),
       this.beerService.getAllBeers(page, perPage, beerName, brewedBefore)
