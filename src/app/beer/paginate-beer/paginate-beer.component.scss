@@ -1,0 +1,18 @@
+.pagination {
+    .justify-content-center {
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    .page-link {
+        color: #17a2b8;
+    }
+
+    ngb-pagination ::ng-deep ul>li:not(.active)>a {
+        color: #17a2b8 !important;
+    }
+
+    ngb-pagination ::ng-deep ul>li.active>a {
+        background-color: #17a2b8 !important;
+    }
+}
