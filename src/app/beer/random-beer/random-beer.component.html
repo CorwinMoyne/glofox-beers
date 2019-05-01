@@ -1,7 +1,7 @@
 <div class="card shadow-sm">
   <div class="row">
     <div class="col-12 col-md-4 text-center">
-      <img [src]="randomBeer.image_url" [alt]="randomBeer.tagline" onerror="this.src='../../assets/images/coming-soon.jpg'">
+      <img [src]="randomBeer.imageUrl" [alt]="randomBeer.tagline" onerror="this.src='../../assets/images/coming-soon.jpg'">
     </div>
     <div class="col-12 col-md-8">
       <div class="card">
@@ -22,7 +22,7 @@
             {{randomBeer.description}}
           </div>
         </div>
-        <div class="card-footer">
+        <!-- <div class="card-footer">
           <div class="d-flex justify-content-between" role="group" aria-label="buttons">
             <div class="col-12 col-md-5">
               <button type="button" class="btn btn-info btn-block" (click)="onRandomBeerClick()">Another Beer</button>
@@ -31,7 +31,7 @@
               <button type="button" class="btn btn-info btn-block" (click)="onNonAlcoholicBeerClick()">Random non alcoholic beer</button>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

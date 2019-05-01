@@ -5,6 +5,7 @@ export class Beer {
     tagline: string;
     abv: number;
     description: string;
+    imageUrl: string;
 
     constructor(beer: any) {
         this.id = beer.id;
@@ -12,5 +13,6 @@ export class Beer {
         this.tagline = beer.tagline;
         this.abv = beer.abv;
         this.description = beer.description;
+        this.imageUrl = beer.image_url;
     }
 }

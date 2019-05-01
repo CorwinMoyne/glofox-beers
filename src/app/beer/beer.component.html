@@ -1,1 +1,3 @@
 <app-random-beer [randomBeer]="randomBeer" (getRandomBeer)="getRandomBeer()" (getNonAlcoholicBeer)="getNonAlcoholicBeer()"></app-random-beer>
+
+<app-search-beer [allBeers]="allBeers" [searchBy]="searchBy" (getBeersByName)="getBeersByName($event)" (getBeersByDate)="getBeersByDate($event)"></app-search-beer>
