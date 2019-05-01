@@ -84,8 +84,11 @@ export class BeerService {
         map(beerResponse => {
           const beers = beerResponse.filter(beer => {
             if (!!beer.image_url && !!beer.description) {
-              return new Beer(beer);
+              return true;
             }
+            return false;
+          }).map(beer => {
+            return new Beer(beer);
           });
           return beers;
         })

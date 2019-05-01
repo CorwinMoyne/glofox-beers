@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Beer } from '../shared/models/beer.model';
 import { BeerService } from '../shared/services/beer-service/beer.service';
-import { Subscription } from 'rxjs';
 
 /**
  * the search options available in the search-beer
@@ -41,14 +42,19 @@ export class BeerComponent implements OnInit, OnDestroy {
         this.randomBeer = data.beerData[0];
         this.allBeers = data.beerData[1];
       });
-    this.routeQueryParamsSubscription = this.route.queryParams
-      .subscribe(queryParams => {
-        this.page = queryParams.page || 1;
-        this.perPage = queryParams.perPage || 12;
-        this.beerService.getAllBeers(this.page.toString(), this.perPage.toString()).subscribe(
-          allBeers => this.allBeers = allBeers
-        );
-      });
+    this.route
+      .queryParamMap
+      .pipe(
+        map(params => {
+          this.page = +params.get('page') || 1;
+          this.perPage = +params.get('per_page') || 12;
+        })).subscribe();
+    // .subscribe(queryParams => {
+
+    // this.beerService.getAllBeers(this.page.toString(), this.perPage.toString()).subscribe(
+    //   allBeers => this.allBeers = allBeers
+    // );
+    // });
   }
 
   ngOnDestroy(): void {
