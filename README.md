@@ -2,6 +2,11 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
 
+The project can seen running here: https://corwinmoyne.github.io/glofox-beers/
+
+# Please note
+Requirements state: Only beers with both a label and a description should be displayed. The data does not contain any label data. This was implemented as image_url and description.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
