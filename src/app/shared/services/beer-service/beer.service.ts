@@ -76,11 +76,11 @@ export class BeerService {
       !!brewedBefore ? moment(brewedBefore).format('MM-YYYY') : ''
     ]);
     return this.httpService.get(url)
-    .pipe(
-      map(beerResponse => {
-        const beers = beerResponse.map(beer => new Beer(beer));
-        return beers;
-      })
-    );
+      .pipe(
+        map(beerResponse => {
+          const beers = beerResponse.map(beer => new Beer(beer));
+          return beers;
+        })
+      );
   }
 }

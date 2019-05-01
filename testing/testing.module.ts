@@ -2,21 +2,27 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HttpService } from '../src/app/core/services/http.service';
 import { HttpStubService } from './services/http-stub.service';
 
 @NgModule({
   imports: [
+    BrowserModule,
     CommonModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    NgbPaginationModule
   ],
   exports: [
+    BrowserModule,
+    CommonModule,
     HttpClientModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    NgbPaginationModule
   ],
   providers: [{ provide: HttpService, useClass: HttpStubService }],
   declarations: []

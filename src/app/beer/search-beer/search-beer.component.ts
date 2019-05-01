@@ -12,6 +12,7 @@ export class SearchBeerComponent {
 
   @Input() allBeers: Beer[];
   @Input() searchBy: string;
+  @Input() pageSize: number;
   @Output() getBeersByName: EventEmitter<string> = new EventEmitter();
   @Output() getBeersByDate: EventEmitter<any> = new EventEmitter();
   searchModel: any;
