@@ -53,7 +53,7 @@ describe('BeerService', () => {
   });
 
   it('should return all beers brewed before 02-2010', () => {
-    beerService.getAllBeers(null, null, null, new Date('2010-02-01'))
+    beerService.getAllBeers(null, null, null, '2010-02')
       .subscribe(beers => {
         expect(beers).toBeDefined();
         expect(beers.length).toBe(36);

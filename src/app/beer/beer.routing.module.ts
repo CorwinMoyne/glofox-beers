@@ -5,7 +5,12 @@ import { BeerComponent } from './beer.component';
 import { BeerResolver } from './resolver/beer.resolver';
 
 const routes: Routes = [{
-    path: '', component: BeerComponent, resolve: { beerData: BeerResolver }
+    path: '',
+    component: BeerComponent,
+    resolve: {
+        beerData: BeerResolver
+    },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
 }];
 
 @NgModule({

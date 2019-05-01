@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { Beer } from '../shared/models/beer.model';
 import { BeerService } from '../shared/services/beer-service/beer.service';
@@ -28,6 +28,9 @@ export class BeerComponent implements OnInit, OnDestroy {
   searchBy = SearchOptions.Name;
   page: number;
   perPage: number;
+  beerName: string;
+  brewedBefore: string;
+
   // normally we would get this from server but it's not supported
   pageSize = 80;
 
@@ -42,19 +45,11 @@ export class BeerComponent implements OnInit, OnDestroy {
         this.randomBeer = data.beerData[0];
         this.allBeers = data.beerData[1];
       });
-    this.route
-      .queryParamMap
-      .pipe(
-        map(params => {
-          this.page = +params.get('page') || 1;
-          this.perPage = +params.get('per_page') || 12;
-        })).subscribe();
-    // .subscribe(queryParams => {
-
-    // this.beerService.getAllBeers(this.page.toString(), this.perPage.toString()).subscribe(
-    //   allBeers => this.allBeers = allBeers
-    // );
-    // });
+    this.routeQueryParamsSubscription = this.route.queryParams
+      .subscribe(queryParams => {
+        this.page = queryParams.page || 1;
+        this.perPage = queryParams.per_page || 12;
+      });
   }
 
   ngOnDestroy(): void {
@@ -86,11 +81,9 @@ export class BeerComponent implements OnInit, OnDestroy {
    * @param beerName beer name to filter by
    */
   getBeersByName(beerName: string): void {
-    this.beerService.getAllBeers(null, null, beerName)
-      .subscribe(beers => {
-        this.allBeers = beers;
-        this.pageSize = this.allBeers.length;
-      });
+    this.beerName = beerName;
+    this.onPageChange(1);
+    this.pageSize = this.allBeers.length;
   }
 
   /**
@@ -99,12 +92,11 @@ export class BeerComponent implements OnInit, OnDestroy {
    * @param date date to filter by
    */
   getBeersByDate(date: any): void {
-    const beforeDate = new Date(`${date.year}-${date.month}-${date.day}`);
-    this.beerService.getAllBeers(null, null, null, beforeDate)
-      .subscribe(beers => {
-        this.allBeers = beers;
-        this.pageSize = this.allBeers.length;
-      });
+    this.brewedBefore = moment(
+      new Date(`${date.year}-${date.month}-${date.day}`)
+    ).format('MM-YYYY');
+    this.onPageChange(1);
+    this.pageSize = this.allBeers.length;
   }
 
   /**
@@ -113,6 +105,14 @@ export class BeerComponent implements OnInit, OnDestroy {
    * @param page the page number
    */
   onPageChange(page: number): void {
-    this.router.navigate(['/beer'], { queryParams: { page: page, per_page: this.perPage } });
+    this.page = page;
+    this.router.navigate(['/beer'], {
+      queryParams: {
+        page: this.page,
+        per_page: this.perPage,
+        beer_name: this.beerName,
+        brewed_before: this.brewedBefore
+      }
+    });
   }
 }

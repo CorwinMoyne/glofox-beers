@@ -66,28 +66,28 @@ describe('BeerComponent', () => {
     });
 
     it('should getBeersByName', () => {
-        spyOn(beerService, 'getAllBeers').and.returnValue(
-            of(require('../../../e2e/responses/random-beer.json'))
-        );
-        component.allBeers = undefined;
+        spyOn(router, 'navigate');
+        component.allBeers = [];
         component.getBeersByName('test');
-        expect(beerService.getAllBeers).toHaveBeenCalled();
-        expect(component.allBeers).toBeDefined();
+        expect(router.navigate).toHaveBeenCalledWith(
+            ['/beer'], Object({ queryParams: Object({ page: 1, per_page: 12, beer_name: 'test', brewed_before: undefined }) })
+        );
     });
 
     it('should getBeersByDate', () => {
-        spyOn(beerService, 'getAllBeers').and.returnValue(
-            of(require('../../../e2e/responses/random-beer.json'))
+        spyOn(router, 'navigate');
+        component.allBeers = [];
+        component.getBeersByDate({ year: 2010, month: 5, day: 1 });
+        expect(router.navigate).toHaveBeenCalledWith(
+            ['/beer'], Object({ queryParams: Object({ page: 1, per_page: 12, beer_name: undefined, brewed_before: '05-2010' }) })
         );
-        component.allBeers = undefined;
-        component.getBeersByDate(new Date());
-        expect(beerService.getAllBeers).toHaveBeenCalled();
-        expect(component.allBeers).toBeDefined();
     });
 
     it('should navigate to /beer', () => {
         spyOn(router, 'navigate');
         component.onPageChange(2);
-        expect(router.navigate).toHaveBeenCalledWith(['/beer'], Object({ queryParams: Object({ page: 2, per_page: 12 }) }));
+        expect(router.navigate).toHaveBeenCalledWith(
+            ['/beer'], Object({ queryParams: Object({ page: 2, per_page: 12, beer_name: undefined, brewed_before: undefined }) })
+        );
     });
 });
