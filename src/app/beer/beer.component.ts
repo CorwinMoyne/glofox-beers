@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Beer } from '../shared/models/beer.model';
 import { BeerService } from '../shared/services/beer-service/beer.service';
+import { Subscription } from 'rxjs';
 
 /**
  * the search options available in the search-beer
@@ -17,8 +18,10 @@ export enum SearchOptions {
   templateUrl: './beer.component.html',
   styleUrls: ['./beer.component.scss']
 })
-export class BeerComponent implements OnInit {
+export class BeerComponent implements OnInit, OnDestroy {
 
+  private routeDataSubscription: Subscription;
+  private routeQueryParamsSubscription: Subscription;
   allBeers: Beer[];
   randomBeer: Beer;
   searchBy = SearchOptions.Name;
@@ -33,12 +36,12 @@ export class BeerComponent implements OnInit {
     private beerService: BeerService) { }
 
   ngOnInit(): void {
-    this.route.data
+    this.routeDataSubscription = this.route.data
       .subscribe(data => {
         this.randomBeer = data.beerData[0];
         this.allBeers = data.beerData[1];
       });
-    this.route.queryParams
+    this.routeQueryParamsSubscription = this.route.queryParams
       .subscribe(queryParams => {
         this.page = queryParams.page || 1;
         this.perPage = queryParams.perPage || 12;
@@ -46,6 +49,11 @@ export class BeerComponent implements OnInit {
           allBeers => this.allBeers = allBeers
         );
       });
+  }
+
+  ngOnDestroy(): void {
+    this.routeDataSubscription.unsubscribe();
+    this.routeQueryParamsSubscription.unsubscribe();
   }
 
   /**

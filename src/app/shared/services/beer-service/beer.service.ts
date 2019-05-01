@@ -25,7 +25,11 @@ export class BeerService {
     return this.httpService.get(this.baseUrl + 'random')
       .pipe(
         map(beers => {
-          return new Beer(beers[0]);
+          if (!!beers[0].image_url && !!beers[0].description) {
+            return new Beer(beers[0]);
+          } else {
+            this.getRandomBeer();
+          }
         })
       );
   }
