@@ -3,10 +3,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HttpService } from '../src/app/core/services/http.service';
 import { HttpStubService } from './services/http-stub.service';
+
 
 @NgModule({
   imports: [
@@ -24,7 +26,11 @@ import { HttpStubService } from './services/http-stub.service';
     NgbModule,
     NgbPaginationModule
   ],
-  providers: [{ provide: HttpService, useClass: HttpStubService }],
+  providers: [
+    { provide: ActivatedRoute, useValue: {} },
+    { provide: Router, useValue: { navigate: (params) => {}} },
+    { provide: HttpService, useClass: HttpStubService }
+  ],
   declarations: []
 })
 export class TestingModule { }

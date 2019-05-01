@@ -7,7 +7,7 @@ describe('PaginateBeerComponent', () => {
   let component: PaginateBeerComponent;
   let fixture: ComponentFixture<PaginateBeerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PaginateBeerComponent]
     }).overrideComponent(PaginateBeerComponent, {
@@ -15,14 +15,11 @@ describe('PaginateBeerComponent', () => {
         template: ''
       }
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaginateBeerComponent);
     component = fixture.componentInstance;
-    component.page = 1;
-    component.pageSize = 80;
-    component.perPage = 12;
     fixture.detectChanges();
   });
 

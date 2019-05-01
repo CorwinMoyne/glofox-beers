@@ -38,33 +38,50 @@ export class BeerComponent implements OnInit {
         this.randomBeer = data.beerData[0];
         this.allBeers = data.beerData[1];
       });
-    this.route.queryParams.subscribe(queryParams => {
-      this.page = queryParams.page || 1;
-      this.perPage = queryParams.perPage || 12;
-      this.beerService.getAllBeers(this.page.toString(), this.perPage.toString()).subscribe(
-        allBeers => this.allBeers = allBeers
-      );
-    });
+    this.route.queryParams
+      .subscribe(queryParams => {
+        this.page = queryParams.page || 1;
+        this.perPage = queryParams.perPage || 12;
+        this.beerService.getAllBeers(this.page.toString(), this.perPage.toString()).subscribe(
+          allBeers => this.allBeers = allBeers
+        );
+      });
   }
 
+  /**
+   * gets a random beer
+   */
   getRandomBeer(): void {
     this.beerService.getRandomBeer().subscribe(
       beer => this.randomBeer = beer
     );
   }
 
-  getNonAlcoholicBeer(): void {
+  /**
+   * gets a random alcoholic beer
+   */
+  getRandomNonAlcoholicBeer(): void {
     this.beerService.getRandomNonAlcoholicBeer().subscribe(
       beer => this.randomBeer = beer
     );
   }
 
+  /**
+   * filters beer by name
+   *
+   * @param beerName beer name to filter by
+   */
   getBeersByName(beerName: string): void {
     this.beerService.getAllBeers(null, null, beerName).subscribe(
       beers => this.allBeers = beers
     );
   }
 
+  /**
+   * filters by brewed before date
+   *
+   * @param date date to filter by
+   */
   getBeersByDate(date: any): void {
     const beforeDate = new Date(`${date.year}-${date.month}-${date.day}`);
     this.beerService.getAllBeers(null, null, null, beforeDate).subscribe(
@@ -72,6 +89,11 @@ export class BeerComponent implements OnInit {
     );
   }
 
+  /**
+   * navigates to /beer
+   * 
+   * @param page the page number
+   */
   onPageChange(page: number): void {
     this.router.navigate(['/beer'], { queryParams: { page: page, per_page: this.perPage } });
   }
