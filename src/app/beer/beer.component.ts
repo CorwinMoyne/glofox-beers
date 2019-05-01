@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { Beer } from '../shared/models/beer.model';
 import { BeerService } from '../shared/services/beer-service/beer.service';
 
 @Component({
@@ -10,8 +11,8 @@ import { BeerService } from '../shared/services/beer-service/beer.service';
 })
 export class BeerComponent implements OnInit {
 
-  allBeers: any[];
-  randomBeer: any;
+  allBeers: Beer[];
+  randomBeer: Beer;
 
   constructor(
     private route: ActivatedRoute,

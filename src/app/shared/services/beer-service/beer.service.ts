@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { HttpService } from '../../../core/services/http.service';
+import { Beer } from '../../models/beer.model';
 import { UrlBuilderService } from '../url-builder/url-builder.service';
 
 @Injectable({
@@ -20,11 +21,11 @@ export class BeerService {
   /**
    * returns a random beer Observable
    */
-  getRandomBeer(): Observable<any> {
+  getRandomBeer(): Observable<Beer> {
     return this.httpService.get(this.baseUrl + 'random')
       .pipe(
         map(beers => {
-          return beers[0];
+          return new Beer(beers[0]);
         })
       );
   }
@@ -32,12 +33,12 @@ export class BeerService {
   /**
    * returns a random alcoholic beer Observable
    */
-  getRandomNonAlcoholicBeer(): Observable<any> {
+  getRandomNonAlcoholicBeer(): Observable<Beer> {
     return this.httpService.get(this.baseUrl + '?abv_lt=1')
       .pipe(
         map(beers => {
           const randomInt = this.getRandomInt(beers.length);
-          return beers[randomInt];
+          return new Beer(beers[randomInt]);
         })
       );
   }
@@ -59,7 +60,7 @@ export class BeerService {
    * @param beerName beer name
    * @param brewedBefore brewed before date
    */
-  getAllBeers(page?: string, perPage?: string, beerName?: string, brewedBefore?: Date): Observable<any> {
+  getAllBeers(page?: string, perPage?: string, beerName?: string, brewedBefore?: Date): Observable<Beer[]> {
     let baseUrl = this.baseUrl + '?page={0}&per_page={1}';
     if (!!beerName && !!brewedBefore) {
       baseUrl += '&beer_name={2}&brewed_before={3}';
@@ -74,6 +75,12 @@ export class BeerService {
       !!beerName ? beerName : '',
       !!brewedBefore ? moment(brewedBefore).format('MM-YYYY') : ''
     ]);
-    return this.httpService.get(url);
+    return this.httpService.get(url)
+    .pipe(
+      map(beerResponse => {
+        const beers = beerResponse.map(beer => new Beer(beer));
+        return beers;
+      })
+    );
   }
 }

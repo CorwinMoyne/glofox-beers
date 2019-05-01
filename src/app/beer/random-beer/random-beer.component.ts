@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { Beer } from '../../shared/models/beer.model';
+
 @Component({
   selector: 'app-random-beer',
   templateUrl: './random-beer.component.html',
@@ -7,7 +9,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class RandomBeerComponent {
 
-  @Input() randomBeer: any;
+  @Input() randomBeer: Beer;
   @Output() getRandomBeer: EventEmitter<any> = new EventEmitter();
   @Output() getNonAlcoholicBeer: EventEmitter<any> = new EventEmitter();
 
