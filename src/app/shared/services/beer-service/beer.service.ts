@@ -78,7 +78,11 @@ export class BeerService {
     return this.httpService.get(url)
       .pipe(
         map(beerResponse => {
-          const beers = beerResponse.map(beer => new Beer(beer));
+          const beers = beerResponse.filter(beer => {
+            if (!!beer.image_url && !!beer.description) {
+              return new Beer(beer);
+            }
+          });
           return beers;
         })
       );

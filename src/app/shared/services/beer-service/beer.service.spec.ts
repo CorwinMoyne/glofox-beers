@@ -40,7 +40,7 @@ describe('BeerService', () => {
     beerService.getAllBeers()
       .subscribe(beers => {
         expect(beers).toBeDefined();
-        expect(beers.length).toBe(80);
+        expect(beers.length).toBe(78);
       });
   });
 
@@ -57,6 +57,14 @@ describe('BeerService', () => {
       .subscribe(beers => {
         expect(beers).toBeDefined();
         expect(beers.length).toBe(36);
+      });
+  });
+
+  it('should not return any beers missing image_url or description', () => {
+    beerService.getAllBeers()
+      .subscribe(beers => {
+        expect(beers).toBeDefined();
+        expect(beers.length).toBe(78);
       });
   });
 });
