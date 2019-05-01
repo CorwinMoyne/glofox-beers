@@ -1,3 +1,1 @@
-<p>
-  {{randomBeer | json}}
-</p>
+<app-random-beer [randomBeer]="randomBeer" (getRandomBeer)="getRandomBeer()" (getNonAlcoholicBeer)="getNonAlcoholicBeer()"></app-random-beer>
