@@ -2,19 +2,30 @@
     padding: 1em;
 
     img {
+        max-width: 300px;
         max-height: 400px
     }
 
     .card {
         height: 100%;
+
+        .name {
+            font-family: fantasy;
+            font-size: 2em;
+        }
+
+        hr {
+            border-top: 3px solid #17a2b8;
+        }
+
+        .card-footer {
+            .btn {
+                margin: 10px auto;
+            }
+        }
     }
 
-    .name {
-        font-family: fantasy;
-        font-size: 2em;
-    }
 
-    hr {
-        border-top: 3px solid #17a2b8;
-    }
+
+
 }
