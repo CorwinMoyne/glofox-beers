@@ -72,9 +72,11 @@ export class BeerComponent implements OnInit {
    * @param beerName beer name to filter by
    */
   getBeersByName(beerName: string): void {
-    this.beerService.getAllBeers(null, null, beerName).subscribe(
-      beers => this.allBeers = beers
-    );
+    this.beerService.getAllBeers(null, null, beerName)
+      .subscribe(beers => {
+        this.allBeers = beers;
+        this.pageSize = this.allBeers.length;
+      });
   }
 
   /**
@@ -84,14 +86,16 @@ export class BeerComponent implements OnInit {
    */
   getBeersByDate(date: any): void {
     const beforeDate = new Date(`${date.year}-${date.month}-${date.day}`);
-    this.beerService.getAllBeers(null, null, null, beforeDate).subscribe(
-      beers => this.allBeers = beers
-    );
+    this.beerService.getAllBeers(null, null, null, beforeDate)
+      .subscribe(beers => {
+        this.allBeers = beers;
+        this.pageSize = this.allBeers.length;
+      });
   }
 
   /**
    * navigates to /beer
-   * 
+   *
    * @param page the page number
    */
   onPageChange(page: number): void {

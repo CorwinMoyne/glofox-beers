@@ -11,22 +11,17 @@
 
       <div class="row form-group">
 
-        <div class="col-12 col-md-4" *ngIf="isSearchByName()">
+        <div class="col-12 col-md-3" *ngIf="isSearchByName()">
           <div class="input-group">
             <input type="text" #search="ngModel" name="search" class="form-control" placeholder="Search" [(ngModel)]="searchModel"
               pattern="^[0-9A-Za-z\- ]+$" [required]="isSearchByName()">
-            <div class="input-group-append">
-              <button class="btn btn-info" type="button" [disabled]="searchForm.invalid">
-                <i class="fa fa-search"></i>
-              </button>
-            </div>
           </div>
           <div class="alert alert-danger" *ngIf="search.dirty && search.errors?.pattern">
             This must only contain letters, numbers, hyphens and spaces.
           </div>
         </div>
 
-        <div class="col-12 col-md-4" *ngIf="isSearchByDate()">
+        <div class="col-12 col-md-3" *ngIf="isSearchByDate()">
           <div class="input-group">
             <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="searchModel" ngbDatepicker #d="ngbDatepicker">
             <div class="input-group-append">
@@ -36,7 +31,7 @@
           </div>
         </div>
 
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-6 text-center">
           <div class="form-check-inline">
             <label class="form-check-label">
               <input type="radio" class="form-check-input" name="optradio" value="name" [(ngModel)]="searchBy" checked>
@@ -49,9 +44,10 @@
               Brewed Before
             </label>
           </div>
-          <div class="col-5 pull-right">
-            <button class="btn btn-info btn-block" (click)="onSearchClick()" [disabled]="!searchModel">Search</button>
-          </div>
+        </div>
+
+        <div class="col-12 col-md-3">
+          <button class="btn btn-info btn-block" (click)="onSearchClick()" [disabled]="!searchModel">Search</button>
         </div>
       </div>
 
