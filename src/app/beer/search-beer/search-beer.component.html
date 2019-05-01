@@ -1,90 +1,81 @@
-<form #searchForm="ngForm">
-  <div class="search-beer">
-    <div class="row">
-      <div class="col-12">
-        Search
+<div class="mt-3">
+  <form #searchForm="ngForm">
+    <div class="search-beer">
+      <div class="row form-group">
+        <div class="col-12 search">
+          <h1>
+            Search
+          </h1>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
+      <div class="row form-group">
 
-      <div class="col-12 col-md-4" *ngIf="isSearchByName()">
-        <div class="row">
-          <div class="col-12">
-            <div class="input-group">
-              <input type="text" #search="ngModel" name="search" class="form-control" placeholder="Search" [(ngModel)]="searchModel"
-                pattern="^[0-9A-Za-z\- ]+$" [required]="isSearchByName()">
-              <div class="input-group-append">
-                <button class="btn btn-info" type="button" [disabled]="searchForm.invalid">
-                  <i class="fa fa-search"></i>
-                </button>
-              </div>
+        <div class="col-12 col-md-4" *ngIf="isSearchByName()">
+          <div class="input-group">
+            <input type="text" #search="ngModel" name="search" class="form-control" placeholder="Search" [(ngModel)]="searchModel"
+              pattern="^[0-9A-Za-z\- ]+$" [required]="isSearchByName()">
+            <div class="input-group-append">
+              <button class="btn btn-info" type="button" [disabled]="searchForm.invalid">
+                <i class="fa fa-search"></i>
+              </button>
             </div>
           </div>
-        </div>
-        <div class="row">
           <div class="alert alert-danger" *ngIf="search.dirty && search.errors?.pattern">
             This must only contain letters, numbers, hyphens and spaces.
           </div>
         </div>
-      </div>
 
-      <div class="col-12 col-md-4" *ngIf="isSearchByDate()">
-        <div class="row">
-          <div class="col-12">
-            <form class="form-inline">
-              <div class="form-group">
-                <div class="input-group">
-                  <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="searchModel"
-                    ngbDatepicker #d="ngbDatepicker">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-info" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </form>
+        <div class="col-12 col-md-4" *ngIf="isSearchByDate()">
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="searchModel" ngbDatepicker #d="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-info" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-8">
+          <div class="form-check-inline">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="optradio" value="name" [(ngModel)]="searchBy" checked>
+              By Name
+            </label>
+          </div>
+          <div class="form-check-inline">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="optradio" value="date" [(ngModel)]="searchBy">
+              Brewed Before
+            </label>
+          </div>
+          <div class="col-5 pull-right">
+            <button class="btn btn-info btn-block" (click)="onSearchClick()" [disabled]="!searchModel">Search</button>
           </div>
         </div>
       </div>
 
-      <div class="col-12 col-md-8">
-        <div class="form-check-inline">
-          <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="optradio" value="name" [(ngModel)]="searchBy" checked>
-            By Name
-          </label>
-        </div>
-        <div class="form-check-inline">
-          <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="optradio" value="date" [(ngModel)]="searchBy">
-            Brewed Before
-          </label>
-        </div>
-        <div class="col-5 pull-right">
-          <button class="btn btn-info btn-block" (click)="onSearchClick()" [disabled]="!searchModel">Search</button>
+      <div class="row form-group">
+        <div class="col-12 search-results-header">
+          Search Results ({{pageSize}})
         </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-12">
-        Search Results ({{pageSize}})
-      </div>
-    </div>
-
-    <div *ngFor="let beer of allBeers; let i = index;" class="row">
-      <div class="col-12 col-md-2 col-md-2 text-center">
-        <img [src]="beer.imageUrl" [alt]="beer.tagline" onerror="this.src='../../assets/images/coming-soon.jpg'">
-      </div>
-      <div class="col-12 col-md-2 col-md-10">
-        <div class="col-12">
-          Beer {{i + 1}}
-        </div>
-        <div class="col-12">
-          {{beer.description}}
+      <div *ngFor="let beer of allBeers; let i = index;" class="search-results shadow-sm mb-3 p-2">
+        <div class="row">
+          <div class="col-12 col-md-2 col-md-2 text-center">
+            <img [src]="beer.imageUrl" [alt]="beer.tagline" onerror="this.src='../../assets/images/coming-soon.jpg'">
+          </div>
+          <div class="col-12 col-md-2 col-md-10">
+            <div class="col-12 beer-name">
+              Beer {{i + 1}}
+            </div>
+            <div class="col-12 mt-2">
+              {{beer.description}}
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>

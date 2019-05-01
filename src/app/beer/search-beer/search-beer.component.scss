@@ -1,5 +1,20 @@
 .search-beer {
-    img {
-        max-height: 200px;
+    .search {
+        color: #17a2b8;
+    }
+
+    .search-results-header {
+        color: #17a2b8;
+    }
+
+    .search-results {
+        img {
+            max-height: 200px;
+        }
+
+        .beer-name {
+            font-family: fantasy;
+            font-size: 1.5em;
+        }
     }
 }
