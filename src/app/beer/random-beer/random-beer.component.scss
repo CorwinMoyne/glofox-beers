@@ -9,6 +9,10 @@
     .card {
         height: 100%;
 
+        .card-body {
+            height: 350px;
+        }
+
         .card-header {
             font-size: 1.2em;
             color: #17a2b8;
@@ -29,8 +33,4 @@
             }
         }
     }
-
-
-
-
 }
