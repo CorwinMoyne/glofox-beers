@@ -1,4 +1,4 @@
-<div class="card shadow-sm">
+<div class="card shadow-sm" *ngIf="randomBeer">
   <div class="row mt-2">
     <div class="col-12 col-md-4 text-center">
       <img [src]="randomBeer.imageUrl" [alt]="randomBeer.tagline" onerror="this.src='../../assets/images/coming-soon.jpg'">

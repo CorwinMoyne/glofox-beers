@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import * as moment from 'moment';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Beer } from '../shared/models/beer.model';
 import { BeerService } from '../shared/services/beer-service/beer.service';
+import * as fromBeer from './state/beer.reducer';
+import * as BeerActions from './state/beer.actions';
 
 /**
  * the search options available in the search-beer
@@ -19,15 +22,13 @@ export enum SearchOptions {
   templateUrl: './beer.component.html',
   styleUrls: ['./beer.component.scss']
 })
-export class BeerComponent implements OnInit, OnDestroy {
+export class BeerComponent implements OnInit {
 
-  private routeDataSubscription: Subscription;
-  private routeQueryParamsSubscription: Subscription;
-  allBeers: Beer[];
-  randomBeer: Beer;
+  allBeers$: Observable<Beer[]>;
+  randomBeer$: Observable<Beer>;
   searchBy = SearchOptions.Name;
-  page: number;
-  perPage: number;
+  page: string;
+  perPage: string;
   beerName: string;
   brewedBefore: string;
 
@@ -35,44 +36,29 @@ export class BeerComponent implements OnInit, OnDestroy {
   pageSize = 80;
 
   constructor(
+    private store: Store<fromBeer.State>,
     private router: Router,
     private route: ActivatedRoute,
     private beerService: BeerService) { }
 
   ngOnInit(): void {
-    this.routeDataSubscription = this.route.data
-      .subscribe(data => {
-        this.randomBeer = data.beerData[0];
-        this.allBeers = data.beerData[1];
-      });
-    this.routeQueryParamsSubscription = this.route.queryParams
-      .subscribe(queryParams => {
-        this.page = queryParams.page || 1;
-        this.perPage = queryParams.per_page || 12;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.routeDataSubscription.unsubscribe();
-    this.routeQueryParamsSubscription.unsubscribe();
+    // this.store.dispatch(new BeerActions.LoadBeersAction());
+    this.getRandomBeer();
+    this.allBeers$ = this.beerService.getAllBeers(this.page, this.perPage, this.beerName, this.brewedBefore);
   }
 
   /**
    * gets a random beer
    */
   getRandomBeer(): void {
-    this.beerService.getRandomBeer().subscribe(
-      beer => this.randomBeer = beer
-    );
+    this.randomBeer$ = this.store.select(state => state.beers.randomBeer);
   }
 
   /**
    * gets a random alcoholic beer
    */
   getRandomNonAlcoholicBeer(): void {
-    this.beerService.getRandomNonAlcoholicBeer().subscribe(
-      beer => this.randomBeer = beer
-    );
+    this.randomBeer$ = this.beerService.getRandomNonAlcoholicBeer();
   }
 
   /**
@@ -82,8 +68,8 @@ export class BeerComponent implements OnInit, OnDestroy {
    */
   getBeersByName(beerName: string): void {
     this.beerName = beerName;
-    this.onPageChange(1);
-    this.pageSize = this.allBeers.length;
+    this.onPageChange('1');
+    // this.pageSize = this.allBeers.length;
   }
 
   /**
@@ -95,8 +81,8 @@ export class BeerComponent implements OnInit, OnDestroy {
     this.brewedBefore = moment(
       new Date(`${date.year}-${date.month}-${date.day}`)
     ).format('MM-YYYY');
-    this.onPageChange(1);
-    this.pageSize = this.allBeers.length;
+    this.onPageChange('1');
+    // this.pageSize = this.allBeers.length;
   }
 
   /**
@@ -104,7 +90,7 @@ export class BeerComponent implements OnInit, OnDestroy {
    *
    * @param page the page number
    */
-  onPageChange(page: number): void {
+  onPageChange(page: string): void {
     this.page = page;
     this.router.navigate(['/beer'], {
       queryParams: {

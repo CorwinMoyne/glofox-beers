@@ -1,5 +1,5 @@
-<app-random-beer [randomBeer]="randomBeer" (getRandomBeer)="getRandomBeer()" (getNonAlcoholicBeer)="getRandomNonAlcoholicBeer()"></app-random-beer>
+<app-random-beer [randomBeer]="randomBeer$ | async" (getRandomBeer)="getRandomBeer()" (getNonAlcoholicBeer)="getRandomNonAlcoholicBeer()"></app-random-beer>
 
-<app-search-beer [allBeers]="allBeers" [searchBy]="searchBy" [pageSize]="pageSize" (getBeersByName)="getBeersByName($event)" (getBeersByDate)="getBeersByDate($event)"></app-search-beer>
+<app-search-beer [allBeers]="allBeers$ | async" [searchBy]="searchBy" [pageSize]="pageSize" (getBeersByName)="getBeersByName($event)" (getBeersByDate)="getBeersByDate($event)"></app-search-beer>
 
 <app-paginate-beer [page]="page" [perPage]="perPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)"></app-paginate-beer>
