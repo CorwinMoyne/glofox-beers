@@ -1,14 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { Beer } from '../shared/models/beer.model';
-import { BeerService } from '../shared/services/beer-service/beer.service';
-import * as fromBeer from './state/beer.reducer';
 import * as BeerActions from './state/beer.actions';
-import { BeerActions } from './state/beer.actions';
+import * as fromBeer from './state/beer.reducer';
 
 /**
  * the search options available in the search-beer
@@ -28,19 +26,15 @@ export class BeerComponent implements OnInit {
   allBeers$: Observable<Beer[]>;
   randomBeer$: Observable<Beer>;
   searchBy = SearchOptions.Name;
-  page: string;
-  perPage: string;
+  page = '1';
+  perPage = '25';
   beerName: string;
   brewedBefore: string;
-
-  // normally we would get this from server but it's not supported
   pageSize = 80;
 
   constructor(
     private store: Store<fromBeer.State>,
-    private router: Router,
-    private route: ActivatedRoute,
-    private beerService: BeerService) { }
+    private router: Router) { }
 
   ngOnInit(): void {
     this.allBeers$ = this.store.select(state => state.beers.allBeers);
@@ -69,7 +63,6 @@ export class BeerComponent implements OnInit {
   getBeersByName(beerName: string): void {
     this.beerName = beerName;
     this.onPageChange('1');
-    // this.pageSize = this.allBeers.length;
   }
 
   /**
@@ -82,7 +75,6 @@ export class BeerComponent implements OnInit {
       new Date(`${date.year}-${date.month}-${date.day}`)
     ).format('MM-YYYY');
     this.onPageChange('1');
-    // this.pageSize = this.allBeers.length;
   }
 
   /**

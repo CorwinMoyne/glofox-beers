@@ -6,6 +6,7 @@ import { map, catchError } from 'rxjs/operators';
 import { HttpService } from '../../../core/services/http.service';
 import { Beer } from '../../models/beer.model';
 import { UrlBuilderService } from '../url-builder/url-builder.service';
+import { Params } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -68,20 +69,20 @@ export class BeerService {
    * @param beerName beer name
    * @param brewedBefore brewed before date
    */
-  getAllBeers(page?: string, perPage?: string, beerName?: string, brewedBefore?: string): Observable<Beer[]> {
+  getAllBeers(params: Params): Observable<Beer[]> {
     let baseUrl = this.baseUrl + '?page={0}&per_page={1}';
-    if (!!beerName && !!brewedBefore) {
+    if (!!params.beerName && !!params.brewedBefore) {
       baseUrl += '&beer_name={2}&brewed_before={3}';
-    } else if (!!beerName) {
+    } else if (!!params.beerName) {
       baseUrl += '&beer_name={2}';
-    } else if (!!brewedBefore) {
+    } else if (!!params.brewedBefore) {
       baseUrl += '&brewed_before={3}';
     }
     const url = this.urlBuilderService.buildUrl(baseUrl, [
-      !!page ? page : '1',
-      !!perPage ? perPage : '12',
-      !!beerName ? beerName : '',
-      !!brewedBefore ? brewedBefore : ''
+      params.page,
+      params.per_page,
+      params.beer_name,
+      params.brewedefore
     ]);
     return this.httpService.get(url)
       .pipe(

@@ -1,3 +1,4 @@
+import { Params } from '@angular/router';
 import { Action } from '@ngrx/store';
 
 import { Beer } from '../../shared/models/beer.model';
@@ -13,6 +14,8 @@ export enum BeerActionTypes {
 
 export class LoadBeersAction implements Action {
     readonly type = BeerActionTypes.LoadBeersAction;
+
+    constructor(public payload: Params) {}
 }
 
 export class LoadBeersSuccessAction implements Action {

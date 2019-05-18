@@ -21,6 +21,6 @@ export class BeerResolver {
    * @param route ActivatedRouteSnapshot
    */
   resolve(route: ActivatedRouteSnapshot): void {
-    this.store.dispatch(new BeerActions.LoadBeersAction());
+    this.store.dispatch(new BeerActions.LoadBeersAction(route.queryParams));
   }
 }
