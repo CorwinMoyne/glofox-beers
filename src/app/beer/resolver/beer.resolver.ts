@@ -22,13 +22,5 @@ export class BeerResolver {
    */
   resolve(route: ActivatedRouteSnapshot): void {
     this.store.dispatch(new BeerActions.LoadBeersAction());
-    // const page = !!route.queryParams ? route.queryParams.page : undefined;
-    // const perPage = !!route.queryParams ? route.queryParams.per_page : undefined;
-    // const beerName = !!route.queryParams ? route.queryParams.beer_name : undefined;
-    // const brewedBefore = !!route.queryParams ? route.queryParams.brewed_before : undefined;
-    // return forkJoin([
-    //   this.beerService.getRandomBeer(),
-    //   this.beerService.getAllBeers(page, perPage, beerName, brewedBefore)
-    // ]);
   }
 }

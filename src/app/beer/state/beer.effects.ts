@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { forkJoin } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, mergeMap } from 'rxjs/operators';
 
 import { BeerService } from '../../shared/services/beer-service/beer.service';
 import * as BeerActions from './beer.actions';
-import { BeerState } from './beer.reducer';
 
 @Injectable()
 export class BeerEffects {
@@ -23,6 +22,26 @@ export class BeerEffects {
                 this.beerService.getAllBeers()
             ]).pipe(
                 map(data => new BeerActions.LoadBeersSuccessAction({ randomBeer: data[0], allBeers: data[1] }))
+            );
+        })
+    );
+
+    @Effect()
+    getRandomBeer$ = this.actions$.pipe(
+        ofType(BeerActions.BeerActionTypes.GetRandomBeerAction),
+        mergeMap(() => {
+            return this.beerService.getRandomBeer().pipe(
+                map(randomBeer => new BeerActions.GetRandomBeerSuccessAction(randomBeer))
+            );
+        })
+    );
+
+    @Effect()
+    getRandomNonAlcoholicBeer$ = this.actions$.pipe(
+        ofType(BeerActions.BeerActionTypes.GetRandomNonAlcoholicBeerAction),
+        mergeMap(() => {
+            return this.beerService.getRandomNonAlcoholicBeer().pipe(
+                map(randomBeer => new BeerActions.GetRandomBeerSuccessAction(randomBeer))
             );
         })
     );

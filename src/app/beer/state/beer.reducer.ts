@@ -17,12 +17,19 @@ const initialState: BeerState = {
 };
 
 export function reducer(state = initialState, action: BeerActions): BeerState {
+    console.log(action.type, state);
+    
     switch (action.type) {
         case BeerActionTypes.LoadBeersSuccessAction:
             return {
                 ...state,
                 randomBeer: action.payload.randomBeer,
                 allBeers: action.payload.allBeers
+            };
+        case BeerActionTypes.GetRandomBeerSuccessAction:
+            return {
+                ...state,
+                randomBeer: action.payload
             };
         default:
             return state;

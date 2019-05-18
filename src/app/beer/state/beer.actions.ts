@@ -1,10 +1,14 @@
 import { Action } from '@ngrx/store';
 
+import { Beer } from '../../shared/models/beer.model';
 import { BeerState } from './beer.reducer';
 
 export enum BeerActionTypes {
     LoadBeersAction = '[Beers] Load',
-    LoadBeersSuccessAction = '[Beers] Load Beers Success'
+    LoadBeersSuccessAction = '[Beers] Load Beers Success',
+    GetRandomBeerAction = '[Beers] Get Random Beer',
+    GetRandomBeerSuccessAction = '[Beers] Get Random Beer Success',
+    GetRandomNonAlcoholicBeerAction = '[Beers] Get Random Non Alcoholic Beer'
 }
 
 export class LoadBeersAction implements Action {
@@ -17,6 +21,27 @@ export class LoadBeersSuccessAction implements Action {
     constructor(public payload: BeerState) { }
 }
 
+export class GetRandomBeerAction implements Action {
+    readonly type = BeerActionTypes.GetRandomBeerAction;
+
+    constructor(public payload?: any) { }
+}
+
+export class GetRandomBeerSuccessAction implements Action {
+    readonly type = BeerActionTypes.GetRandomBeerSuccessAction;
+
+    constructor(public payload: Beer) { }
+}
+
+export class GetRandomNonAlcoholicBeerAction implements Action {
+    readonly type = BeerActionTypes.GetRandomBeerAction;
+
+    constructor(public payload?: any) { }
+}
+
 export type BeerActions
     = LoadBeersAction
-    | LoadBeersSuccessAction;
+    | LoadBeersSuccessAction
+    | GetRandomBeerAction
+    | GetRandomBeerSuccessAction
+    | GetRandomNonAlcoholicBeerAction;

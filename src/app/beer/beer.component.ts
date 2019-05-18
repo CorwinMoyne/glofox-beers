@@ -8,6 +8,7 @@ import { Beer } from '../shared/models/beer.model';
 import { BeerService } from '../shared/services/beer-service/beer.service';
 import * as fromBeer from './state/beer.reducer';
 import * as BeerActions from './state/beer.actions';
+import { BeerActions } from './state/beer.actions';
 
 /**
  * the search options available in the search-beer
@@ -42,23 +43,22 @@ export class BeerComponent implements OnInit {
     private beerService: BeerService) { }
 
   ngOnInit(): void {
-    // this.store.dispatch(new BeerActions.LoadBeersAction());
-    this.getRandomBeer();
-    this.allBeers$ = this.beerService.getAllBeers(this.page, this.perPage, this.beerName, this.brewedBefore);
+    this.allBeers$ = this.store.select(state => state.beers.allBeers);
+    this.randomBeer$ = this.store.select(state => state.beers.randomBeer);
   }
 
   /**
    * gets a random beer
    */
   getRandomBeer(): void {
-    this.randomBeer$ = this.store.select(state => state.beers.randomBeer);
+    this.store.dispatch(new BeerActions.GetRandomBeerAction());
   }
 
   /**
    * gets a random alcoholic beer
    */
   getRandomNonAlcoholicBeer(): void {
-    this.randomBeer$ = this.beerService.getRandomNonAlcoholicBeer();
+    this.store.dispatch(new BeerActions.GetRandomNonAlcoholicBeerAction());
   }
 
   /**
