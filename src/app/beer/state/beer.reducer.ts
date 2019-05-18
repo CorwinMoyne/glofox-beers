@@ -17,8 +17,6 @@ const initialState: BeerState = {
 };
 
 export function reducer(state = initialState, action: BeerActions): BeerState {
-    console.log(action.type, state);
-    
     switch (action.type) {
         case BeerActionTypes.LoadBeersSuccessAction:
             return {
