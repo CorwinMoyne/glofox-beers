@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
@@ -19,7 +19,8 @@ export enum SearchOptions {
 @Component({
   selector: 'app-beer',
   templateUrl: './beer.component.html',
-  styleUrls: ['./beer.component.scss']
+  styleUrls: ['./beer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BeerComponent implements OnInit {
 
