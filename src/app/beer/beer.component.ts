@@ -37,8 +37,8 @@ export class BeerComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.allBeers$ = this.store.select(state => state.beers.allBeers);
-    this.randomBeer$ = this.store.select(state => state.beers.randomBeer);
+    this.allBeers$ = this.store.select(fromBeer.getAllBeers);
+    this.randomBeer$ = this.store.select(fromBeer.getRandomBeer);
   }
 
   /**
