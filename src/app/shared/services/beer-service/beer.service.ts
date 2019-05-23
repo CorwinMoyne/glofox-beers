@@ -26,7 +26,7 @@ export class BeerService {
     return this.httpService.get(this.baseUrl + 'random')
       .pipe(
         map(beers => {
-          if (!!beers[0].image_url || !!beers[0].description) {
+          if (!!beers[0].image_url && !!beers[0].description) {
             return new Beer(beers[0]);
           } else {
             throw new Error('image url or description missing');
@@ -63,31 +63,21 @@ export class BeerService {
   /**
    * returns all beers
    *
-   * @param page the page number
-   * @param perPage items per page
-   * @param beerName beer name
-   * @param brewedBefore brewed before date
+   * @param params queryParams
    */
   getAllBeers(params: Params): Observable<Beer[]> {
-    let baseUrl = this.baseUrl + '?page={0}&per_page={1}';
-    if (!!params.beerName && !!params.brewedBefore) {
-      baseUrl += '&beer_name={2}&brewed_before={3}';
-    } else if (!!params.beerName) {
-      baseUrl += '&beer_name={2}';
-    } else if (!!params.brewedBefore) {
-      baseUrl += '&brewed_before={3}';
+    let url = `${this.baseUrl}?page=${params.page}&per_page=${params.per_page}`;
+    if (!!params.beer_name) {
+      url += `&beer_name=${params.beer_name}`;
     }
-    const url = this.urlBuilderService.buildUrl(baseUrl, [
-      params.page,
-      params.per_page,
-      params.beer_name,
-      params.brewedefore
-    ]);
+    if (!!params.brewed_before) {
+      url += `&brewed_before=${params.brewed_before}`;
+    }
     return this.httpService.get(url)
       .pipe(
         map(beerResponse => {
           const beers = beerResponse.filter(beer => {
-            if (!!beer.image_url || !!beer.description) {
+            if (!!beer.image_url && !!beer.description) {
               return true;
             }
             return false;

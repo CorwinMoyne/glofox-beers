@@ -62,6 +62,7 @@ export class BeerComponent implements OnInit {
    * @param beerName beer name to filter by
    */
   getBeersByName(beerName: string): void {
+    this.brewedBefore = undefined;
     this.beerName = beerName;
     this.onPageChange('1');
   }
@@ -72,6 +73,7 @@ export class BeerComponent implements OnInit {
    * @param date date to filter by
    */
   getBeersByDate(date: any): void {
+    this.beerName = undefined;
     this.brewedBefore = moment(
       new Date(`${date.year}-${date.month}-${date.day}`)
     ).format('MM-YYYY');

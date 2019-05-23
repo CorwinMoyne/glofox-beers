@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { Params, ActivatedRouteSnapshot } from '@angular/router';
 
 import { TestingModule } from '../../../../../testing/testing.module';
 import { BeerService } from './beer.service';
@@ -37,7 +38,13 @@ describe('BeerService', () => {
   });
 
   it('should return all beers', () => {
-    beerService.getAllBeers()
+    const params: Params = {
+      page: '1',
+      per_page: '25',
+      beer_name: undefined,
+      brewed_before: undefined
+    };
+    beerService.getAllBeers(params)
       .subscribe(beers => {
         expect(beers).toBeDefined();
         expect(beers.length).toBe(78);
@@ -45,7 +52,12 @@ describe('BeerService', () => {
   });
 
   it('should return all beers with the name Buzz', () => {
-    beerService.getAllBeers(null, null, 'Buzz')
+    const params: Params = {
+      page: '1',
+      per_page: '25',
+      beer_name: 'Buzz'
+    };
+    beerService.getAllBeers(params)
       .subscribe(beers => {
         expect(beers).toBeDefined();
         expect(beers.length).toBe(1);
@@ -53,7 +65,12 @@ describe('BeerService', () => {
   });
 
   it('should return all beers brewed before 02-2010', () => {
-    beerService.getAllBeers(null, null, null, '2010-02')
+    const params: Params = {
+      page: '1',
+      per_page: '25',
+      brewed_before: '2010-02'
+    };
+    beerService.getAllBeers(params)
       .subscribe(beers => {
         expect(beers).toBeDefined();
         expect(beers.length).toBe(36);
@@ -61,7 +78,11 @@ describe('BeerService', () => {
   });
 
   it('should not return any beers missing image_url or description', () => {
-    beerService.getAllBeers()
+    const params: Params = {
+      page: '1',
+      per_page: '25'
+    };
+    beerService.getAllBeers(params)
       .subscribe(beers => {
         expect(beers).toBeDefined();
         expect(beers.length).toBe(78);
