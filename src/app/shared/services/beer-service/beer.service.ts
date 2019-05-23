@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import * as moment from 'moment';
+import { Params } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { HttpService } from '../../../core/services/http.service';
 import { Beer } from '../../models/beer.model';
 import { UrlBuilderService } from '../url-builder/url-builder.service';
-import { Params } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +26,7 @@ export class BeerService {
     return this.httpService.get(this.baseUrl + 'random')
       .pipe(
         map(beers => {
-          if (!!beers[0].image_url && !!beers[0].description) {
+          if (!!beers[0].image_url || !!beers[0].description) {
             return new Beer(beers[0]);
           } else {
             throw new Error('image url or description missing');
@@ -88,7 +87,7 @@ export class BeerService {
       .pipe(
         map(beerResponse => {
           const beers = beerResponse.filter(beer => {
-            if (!!beer.image_url && !!beer.description) {
+            if (!!beer.image_url || !!beer.description) {
               return true;
             }
             return false;
