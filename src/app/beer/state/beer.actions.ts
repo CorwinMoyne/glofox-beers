@@ -37,7 +37,7 @@ export class GetRandomBeerSuccessAction implements Action {
 }
 
 export class GetRandomNonAlcoholicBeerAction implements Action {
-    readonly type = BeerActionTypes.GetRandomBeerAction;
+    readonly type = BeerActionTypes.GetRandomNonAlcoholicBeerAction;
 
     constructor(public payload?: any) { }
 }
