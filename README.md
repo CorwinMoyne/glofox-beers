@@ -33,5 +33,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## To deploy to github pages
 ng build --prod --base-href "https://corwinmoyne.github.io/glofox-beers/"
+
 ngh --dir dist/glofox-beers
 
