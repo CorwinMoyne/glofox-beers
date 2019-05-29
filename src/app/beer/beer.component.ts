@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 import { Beer } from '../shared/models/beer.model';
+import { BeerService } from '../shared/services/beer-service/beer.service';
 import * as BeerActions from './state/beer.actions';
 import * as fromBeer from './state/beer.reducer';
 
@@ -22,8 +24,9 @@ export enum SearchOptions {
   styleUrls: ['./beer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BeerComponent implements OnInit {
+export class BeerComponent implements OnInit, OnDestroy {
 
+  private subscribe$: Subscription;
   allBeers$: Observable<Beer[]>;
   randomBeer$: Observable<Beer>;
   searchBy = SearchOptions.Name;
@@ -32,14 +35,50 @@ export class BeerComponent implements OnInit {
   beerName: string;
   brewedBefore: string;
   pageSize = 80;
+  shouldTake = true;
 
   constructor(
+    private beerService: BeerService,
     private store: Store<fromBeer.State>,
     private router: Router) { }
 
   ngOnInit(): void {
+    this.logHelloWorld();
+    this.subscribe$ = this.beerService.getAllBeers({ page: this.page, per_page: this.perPage })
+      .pipe(
+        take(1)
+      ).subscribe(allBeer => {
+        console.log(allBeer);
+      });
+    const observable$ = Observable.create(observer => {
+      observer.next('hello world');
+      observer.complete();
+    });
+    observable$.pipe(
+      map(beers => {
+        console.log('tap');
+        return beers;
+      })
+    ).subscribe(response => console.log(response));
     this.allBeers$ = this.store.select(fromBeer.getAllBeers);
     this.randomBeer$ = this.store.select(fromBeer.getRandomBeer);
+  }
+
+  ngOnDestroy(): void {
+    this.subscribe$.unsubscribe();
+  }
+
+  async logHelloWorld(): Promise<void> {
+    const value = await this.doSomething();
+    console.log(value);
+  }
+
+  doSomething(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('hello sir');
+      }, 3000);
+    });
   }
 
   /**
